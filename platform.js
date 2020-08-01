@@ -89,7 +89,7 @@ loop = () => {
     }
 
     context.fillStyle = "grey"
-    context.fillRect(0,0, 1000, 7000);
+    context.fillRect(0,0, 1000, 700);
     context.beginPath();
     context.fillStyle = "purple";
     context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
