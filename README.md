@@ -2,4 +2,4 @@
 
 inspired by https://www.youtube.com/watch?v=8uIt9a2XBrw
 
-url: bouncybox.netlify.app
+url: https://bouncybox.netlify.app
