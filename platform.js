@@ -88,23 +88,64 @@ loop = () => {
         sprite.x = -sprite.width;
     }
 
+    
+    ///// CANVAS BACKGROUND //////
     context.strokeStyle = '#a4a4dd';
     context.lineJoin = "round";
     context.lineWidth = 6;
     context.fillStyle = "grey";
     context.fillRect(0,0, 1000, 700);
+
+
+    ///// BEZIER CURVE //////
+    context.beginPath();
+    context.moveTo(0, 70);
+    context.bezierCurveTo(180, 0, 360, 140, 500, 70);
+    context.bezierCurveTo(640, 0, 820, 140, 1000, 70);
+    context.stroke()
+
+
+    ///DRAW A TRIANGLE!!!////
+    context.strokeStyle = "#ffffff";
+    context.lineWidth = 5;
+    context.fillStyle = "red";
+    context.beginPath();
+    context.moveTo(500, 50);
+    context.lineTo(300, 300);
+    context.lineTo(700, 300);
+    context.closePath();
+    context.fill();
+    context.stroke();
+
+    ///// BOX HOUSE BODY/////
+    context.fillStyle = "green";
+    context.beginPath();
+    context.rect(300, 300, 400, 300);
+    context.fill();
+    context.stroke();
+
+    /// ATTIC WINDOW /////
+    context.fillStyle = "blue";
+    context.beginPath();
+    context.arc(500, 175, 40, 0, Math.PI*2);
+    context.fill();
+    context.stroke();
+
+    ////// BOUNCY BOX//////
     context.beginPath();
     context.fillStyle = "purple";
     context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
     context.fill();
     context.stroke();
 
+    ////// FLOOR///////
     context.strokeStyle = "#202830";
     context.lineWidth = 8;
     context.beginPath();
     context.moveTo(0, 600);
     context.lineTo(1000, 600);
     context.stroke();
+
 
     window.requestAnimationFrame(loop);
 };
