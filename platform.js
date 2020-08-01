@@ -76,9 +76,9 @@ loop = () => {
     sprite.y_velocity *= 1;
     
 
-    if (sprite.y > 700 - sprite.width - 100){
+    if (sprite.y > 700 - sprite.width - 100 - 6){
         sprite.jumping = false;
-        sprite.y = 700 - sprite.width - 100;
+        sprite.y = 700 - sprite.width - 100 - 6;
         sprite.y_velocity = 0;
     }
 
@@ -88,12 +88,17 @@ loop = () => {
         sprite.x = -sprite.width;
     }
 
-    context.fillStyle = "grey"
+    context.strokeStyle = '#a4a4dd';
+    context.lineJoin = "round";
+    context.lineWidth = 6;
+    context.fillStyle = "grey";
     context.fillRect(0,0, 1000, 700);
     context.beginPath();
     context.fillStyle = "purple";
     context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
     context.fill();
+    context.stroke();
+
     context.strokeStyle = "#202830";
     context.lineWidth = 8;
     context.beginPath();
