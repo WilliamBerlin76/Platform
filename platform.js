@@ -6,6 +6,8 @@ context.canvas.height = 700;
 context.canvas.width = 1000;
 
 
+
+/////////////////////SPRITE////////////////////////
 sprite = {
     height: 90,
     width: 90,
@@ -16,6 +18,8 @@ sprite = {
     y_velocity: 0
 };
 
+
+/////////////////CONTROLLER/////////////////////////
 controller = {
     left: false,
     right: false,
@@ -55,21 +59,21 @@ loop = () => {
     if (controller.up && sprite.jumping === false){
         sprite.y_velocity -= 30;
         sprite.jumping = true;
-        console.log(sprite.y, sprite.y_velocity)
     };
     
     if (controller.left){
-        sprite.x_velocity -= 2
+        sprite.x_velocity -= 1.5
     };
 
     if (controller.right){
-        sprite.x_velocity += 2
+        sprite.x_velocity += 1.5
     };
 
     sprite.y_velocity += 1.5;
     sprite.x += sprite.x_velocity;
     sprite.y += sprite.y_velocity;
-    sprite.x_velocity *= .5;
+    sprite.x_velocity *= .9;
+    sprite.y_velocity *= 1;
     
 
     if (sprite.y > 700 - sprite.width){
@@ -99,8 +103,6 @@ loop = () => {
 
     window.requestAnimationFrame(loop);
 };
-
-
 
 window.addEventListener("keydown", controller.keyListener)
 window.addEventListener("keyup", controller.keyListener);
