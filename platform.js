@@ -76,9 +76,9 @@ loop = () => {
     sprite.y_velocity *= 1;
     
 
-    if (sprite.y > 700 - sprite.width){
+    if (sprite.y > 700 - sprite.width - 100){
         sprite.jumping = false;
-        sprite.y = 700 - sprite.width;
+        sprite.y = 700 - sprite.width - 100;
         sprite.y_velocity = 0;
     }
 
@@ -94,12 +94,12 @@ loop = () => {
     context.fillStyle = "purple";
     context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
     context.fill();
-    // context.strokeStyle = "#202830";
-    // context.lineWidth = 4;
-    // context.beginPath();
-    // context.moveTo(0, 164);
-    // context.lineTo(320, 164);
-    // context.stroke();
+    context.strokeStyle = "#202830";
+    context.lineWidth = 8;
+    context.beginPath();
+    context.moveTo(0, 600);
+    context.lineTo(1000, 600);
+    context.stroke();
 
     window.requestAnimationFrame(loop);
 };
