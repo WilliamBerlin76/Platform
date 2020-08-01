@@ -46,21 +46,42 @@ controller = {
 
 loop = () => {
 
+    if (controller.up && sprite.jumping === false){
+        sprite.y_velocity -= 20;
+        sprite.jumping = true;
+    };
+    
+    if (controller.left){
+        sprite.x_velocity -= .5
+    };
 
-}
+    if (controller.right){
+        sprite.x_velocity += .5
+    };
 
-context.fillStyle = "grey"
-context.fillRect(0,0, context.canvas.width, context.canvas.width);
-context.beginPath();
-context.fillStyle = "purple";// hex for red
-context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
-context.fill();
-// context.strokeStyle = "#202830";
-// context.lineWidth = 4;
-// context.beginPath();
-// context.moveTo(0, 164);
-// context.lineTo(320, 164);
-// context.stroke();
+    sprite.y_velocity = 3.5;
+    sprite.x += sprite.x_velocity;
+    sprite.y += sprite.y_velocity;
+    sprite.x_velocity *= .5;
+    sprite.y_velocity *= .5;
+
+    context.fillStyle = "grey"
+    context.fillRect(0,0, 1000, 7000);
+    context.beginPath();
+    context.fillStyle = "purple";
+    context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
+    context.fill();
+    // context.strokeStyle = "#202830";
+    // context.lineWidth = 4;
+    // context.beginPath();
+    // context.moveTo(0, 164);
+    // context.lineTo(320, 164);
+    // context.stroke();
+
+    window.requestAnimationFrame(loop);
+};
+
+
 
 window.addEventListener("keydown", controller.keyListener)
 window.addEventListener("keyup", controller.keyListener);
