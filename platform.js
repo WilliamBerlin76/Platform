@@ -7,8 +7,8 @@ context.canvas.width = 1000;
 
 
 sprite = {
-    height: 50,
-    width: 50,
+    height: 90,
+    width: 90,
     jumping: false,
     x: 500,
     y: 0,
@@ -28,16 +28,22 @@ controller = {
 
             case 37:
                 controller.left = keyState
-                console.log('l')
-                break;
+            break;
+            case 65:
+                controller.left = keyState
+            break;
             case 38:
                 controller.up = keyState
-                console.log('u')
-                break;
+            break;
+            case 87:
+                controller.up = keyState
+            break;
             case 39:
                 controller.right = keyState
-                console.log('r')
-                break;
+            break;
+            case 68:
+                controller.right = keyState
+            break;
         };
     }
 };
@@ -47,23 +53,36 @@ controller = {
 loop = () => {
 
     if (controller.up && sprite.jumping === false){
-        sprite.y_velocity -= 20;
+        sprite.y_velocity -= 30;
         sprite.jumping = true;
+        console.log(sprite.y, sprite.y_velocity)
     };
     
     if (controller.left){
-        sprite.x_velocity -= .5
+        sprite.x_velocity -= 2
     };
 
     if (controller.right){
-        sprite.x_velocity += .5
+        sprite.x_velocity += 2
     };
 
-    sprite.y_velocity = 3.5;
+    sprite.y_velocity += 1.5;
     sprite.x += sprite.x_velocity;
     sprite.y += sprite.y_velocity;
     sprite.x_velocity *= .5;
-    sprite.y_velocity *= .5;
+    
+
+    if (sprite.y > 700 - sprite.width){
+        sprite.jumping = false;
+        sprite.y = 700 - sprite.width;
+        sprite.y_velocity = 0;
+    }
+
+    if(sprite.x < -sprite.width){
+        sprite.x = 1000
+    } else if (sprite.x > 1000){
+        sprite.x = -sprite.width;
+    }
 
     context.fillStyle = "grey"
     context.fillRect(0,0, 1000, 7000);
