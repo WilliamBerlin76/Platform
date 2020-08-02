@@ -5,17 +5,16 @@ context = document.querySelector('canvas').getContext('2d');
 context.canvas.height = 700;
 context.canvas.width = 1000;
 
-
-
 /////////////////////SPRITE////////////////////////
 sprite = {
-    height: 90,
-    width: 90,
+    height: 95,
+    width: 80,
     jumping: false,
     x: 500,
     y: 0,
     x_velocity: 0,
-    y_velocity: 0
+    y_velocity: 0,
+    image: new Image()
 };
 
 
@@ -76,9 +75,9 @@ loop = () => {
     sprite.y_velocity *= 1;
     
 
-    if (sprite.y > 700 - sprite.width - 100 - 6){
+    if (sprite.y > 700 - sprite.height - 100 - 6){
         sprite.jumping = false;
-        sprite.y = 700 - sprite.width - 100 - 6;
+        sprite.y = 700 - sprite.height - 100 - 6;
         sprite.y_velocity = 0;
     }
 
@@ -133,11 +132,13 @@ loop = () => {
 
     ////// BOUNCY BOX//////
     context.beginPath();
-    context.fillStyle = "purple";
-    context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
-    context.fill();
-    context.stroke();
-
+    // context.fillStyle = "purple";
+    // context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
+    // context.fill();
+    // context.stroke();
+    sprite.image.src = './assets/blob.png';
+    context.drawImage(sprite.image, sprite.x, sprite.y);
+    
     ////// FLOOR///////
     context.strokeStyle = "#202830";
     context.lineWidth = 8;
