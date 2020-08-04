@@ -1,25 +1,17 @@
-var context, controller, sprite, loop;
+
+
+// (function(){ "use strict";
+var context, controller, sprite, spriteSheet, loop;
 
 context = document.querySelector('canvas').getContext('2d');
 
 context.canvas.height = 700;
 context.canvas.width = 1000;
 
-/////////////////////SPRITE////////////////////////
-sprite = {
-    height: 95,
-    width: 80,
-    jumping: false,
-    x: 500,
-    y: 0,
-    x_velocity: 0,
-    y_velocity: 0,
-    image: new Image()
-};
 
 /////////////// ANIMATION CLASS/////////////
 
-var Animation = (frameSet, delay) => {
+var Animation = function(frameSet, delay){
     
     this.count = 0;
     this.delay = delay;
@@ -31,28 +23,47 @@ var Animation = (frameSet, delay) => {
 Animation.prototype = {
 
     // for changing frame sets
-    change: () => {
-        this.count = 0;
-        this.delay = delay;
-        this.frameSet = frameSet;
-        this.frameIndex = 0;
-        this.frame = this.frameSet[this.frameIndex]
+    change: function(frameSet, delay = 20){
+        if(this.frameSet !== frameSet){
+            this.count = 0;
+            this.delay = delay;
+            this.frameSet = frameSet;
+            this.frameIndex = 0;
+            this.frame = this.frameSet[this.frameIndex]
+        }
     },
 
     // runs every animation cylcle
-    update: () => {
+    update: function(){
         this.count++;
-
         // check if count has reached delay time
         if(this.count >= this.delay){
             // reset count
-            count = 0;
+            this.count = 0;
             // if frameIndex is too high, reset it, otherwise, add 1
-            this.frameIndex >= this.frameSet.length ? this.frameIndex = 0 : this.frameIndex++;
+            this.frameIndex >= this.frameSet.length - 1 ? this.frameIndex = 0 : this.frameIndex++;
             this.frame = this.frameSet[this.frameIndex];
         }
     }
+};
 
+/////////////////////SPRITE////////////////////////
+sprite = {
+    animation: new Animation(),
+    height: 90,
+    width: 70,
+    jumping: false,
+    x: 500,
+    y: 0,
+    x_velocity: 0,
+    y_velocity: 0,
+};
+
+///////// SPRITESHEET/////////
+spriteSheet = {
+    // add animation frames, inner arrays are frame sets
+    frameSets: [[0,1]],
+    image: new Image()
 };
 
 /////////////////CONTROLLER/////////////////////////
@@ -98,11 +109,16 @@ loop = () => {
     };
     
     if (controller.left){
-        sprite.x_velocity -= 1.5
+        sprite.x_velocity -= 1
     };
 
     if (controller.right){
-        sprite.x_velocity += 1.5
+        sprite.x_velocity += 1
+    };
+
+    // still animation
+    if(!controller.right && !controller.left){
+        sprite.animation.change(spriteSheet.frameSets[0], 50);
     };
 
     sprite.y_velocity += 1.5;
@@ -125,13 +141,24 @@ loop = () => {
     }
 
     
+    // console.log(sprite.animation.frame)
+    
+    sprite.animation.update();
+    
+    render();
+    
+    window.requestAnimationFrame(loop);
+};
+
+
+let render = function(){
+
     ///// CANVAS BACKGROUND //////
     context.strokeStyle = '#a4a4dd';
     context.lineJoin = "round";
     context.lineWidth = 6;
     context.fillStyle = "grey";
     context.fillRect(0,0, 1000, 700);
-
 
     ///// BEZIER CURVE //////
     context.beginPath();
@@ -168,13 +195,12 @@ loop = () => {
     context.stroke();
 
     ////// BOUNCY BOX//////
-    context.beginPath();
+    // context.beginPath();
     // context.fillStyle = "purple";
     // context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
     // context.fill();
     // context.stroke();
-    sprite.image.src = './assets/sprite-sheet.png';
-    context.drawImage(sprite.image, sprite.x, sprite.y);
+    
     
     ////// FLOOR///////
     context.strokeStyle = "#202830";
@@ -184,10 +210,15 @@ loop = () => {
     context.lineTo(1000, 600);
     context.stroke();
 
+    context.drawImage(spriteSheet.image, sprite.animation.frame * sprite.width, 0, sprite.width, sprite.height+2, sprite.x, sprite.y, sprite.width, sprite.height+2);
 
-    window.requestAnimationFrame(loop);
-};
+}
 
+spriteSheet.image.src = './assets/sprite-sheet.png';
 window.addEventListener("keydown", controller.keyListener)
 window.addEventListener("keyup", controller.keyListener);
-window.requestAnimationFrame(loop);
+spriteSheet.image.addEventListener("load", (e) => {
+    window.requestAnimationFrame(loop);
+})
+
+// })()
