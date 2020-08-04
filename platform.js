@@ -17,6 +17,43 @@ sprite = {
     image: new Image()
 };
 
+/////////////// ANIMATION CLASS/////////////
+
+var Animation = (frameSet, delay) => {
+    
+    this.count = 0;
+    this.delay = delay;
+    this.frameSet = frameSet;
+    this.frame = 0;
+    this.frameIndex = 0;
+};
+
+Animation.prototype = {
+
+    // for changing frame sets
+    change: () => {
+        this.count = 0;
+        this.delay = delay;
+        this.frameSet = frameSet;
+        this.frameIndex = 0;
+        this.frame = this.frameSet[this.frameIndex]
+    },
+
+    // runs every animation cylcle
+    update: () => {
+        this.count++;
+
+        // check if count has reached delay time
+        if(this.count >= this.delay){
+            // reset count
+            count = 0;
+            // if frameIndex is too high, reset it, otherwise, add 1
+            this.frameIndex >= this.frameSet.length ? this.frameIndex = 0 : this.frameIndex++;
+            this.frame = this.frameSet[this.frameIndex];
+        }
+    }
+
+};
 
 /////////////////CONTROLLER/////////////////////////
 controller = {
@@ -136,7 +173,7 @@ loop = () => {
     // context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
     // context.fill();
     // context.stroke();
-    sprite.image.src = './assets/blob.png';
+    sprite.image.src = './assets/sprite-sheet.png';
     context.drawImage(sprite.image, sprite.x, sprite.y);
     
     ////// FLOOR///////
