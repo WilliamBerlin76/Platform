@@ -1,6 +1,4 @@
 
-
-// (function(){ "use strict";
 var context, controller, sprite, spriteSheet, loop;
 
 context = document.querySelector('canvas').getContext('2d');
@@ -11,30 +9,24 @@ context.canvas.width = 1000;
 
 /////////////// ANIMATION CLASS/////////////
 
-var Animation = function(frameSet, delay){
-    
-    this.count = 0;
-    this.delay = delay;
-    this.frameSet = frameSet;
-    this.frame = 0;
-    this.frameIndex = 0;
-};
-
-Animation.prototype = {
-
-    // for changing frame sets
-    change: function(frameSet, delay = 20){
+class Animation {
+    constructor(frameSet, delay){
+        this.count = 0;
+        this.delay = delay;
+        this.frameSet = frameSet;
+        this.frame = 0;
+        this.frameIndex = 0;
+    }
+    change(frameSet, delay = 20){
         if(this.frameSet !== frameSet){
             this.count = 0;
             this.delay = delay;
             this.frameSet = frameSet;
             this.frameIndex = 0;
             this.frame = this.frameSet[this.frameIndex]
-        }
-    },
-
-    // runs every animation cylcle
-    update: function(){
+        } 
+    }
+    update(){
         this.count++;
         // check if count has reached delay time
         if(this.count >= this.delay){
@@ -46,6 +38,7 @@ Animation.prototype = {
         }
     }
 };
+
 
 /////////////////////SPRITE////////////////////////
 sprite = {
@@ -141,13 +134,12 @@ loop = () => {
     }
 
     
-    // console.log(sprite.animation.frame)
-    
     sprite.animation.update();
-    
+
     render();
     
     window.requestAnimationFrame(loop);
+    // setTimeout may be a good way to make movement consistent across devices as powerful devices loop faster
 };
 
 
@@ -219,6 +211,4 @@ window.addEventListener("keydown", controller.keyListener)
 window.addEventListener("keyup", controller.keyListener);
 spriteSheet.image.addEventListener("load", (e) => {
     window.requestAnimationFrame(loop);
-})
-
-// })()
+});
