@@ -93,8 +93,10 @@ controller = {
 };
 
 /////////////////LOOP/////////////////////
+var lastFrameTimeMS = 0;
+var maxFrame = 10;
 
-loop = () => {
+loop = (timestamp) => {
 
     if (controller.up && sprite.jumping === false){
         sprite.y_velocity -= 30;
@@ -134,13 +136,15 @@ loop = () => {
     } else if (sprite.x > 1000){
         sprite.x = -sprite.width;
     }
+    
 
     
-    sprite.animation.update();
-
-    render();
-    
-    window.requestAnimationFrame(loop);
+    if(timestamp < lastFrameTimeMS + (1000 / maxFrame)){
+        sprite.animation.update();
+        render();
+        window.requestAnimationFrame(loop);
+    }
+    lastFrameTimeMS = timestamp
     // setTimeout may be a good way to make movement consistent across devices as powerful devices loop faster
 };
 
