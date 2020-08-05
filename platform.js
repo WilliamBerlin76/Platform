@@ -137,11 +137,9 @@ loop = (timestamp) => {
         sprite.x = -sprite.width;
     }
     
-
-    
+    sprite.animation.update();
+    render();
     if(timestamp < lastFrameTimeMS + (1000 / maxFrame)){
-        sprite.animation.update();
-        render();
         window.requestAnimationFrame(loop);
     }
     lastFrameTimeMS = timestamp
