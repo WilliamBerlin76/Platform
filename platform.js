@@ -93,8 +93,6 @@ controller = {
 };
 
 /////////////////LOOP/////////////////////
-var lastFrameTimeMS = 0;
-var maxFrame = 10;
 
 loop = (timestamp) => {
 
@@ -139,10 +137,8 @@ loop = (timestamp) => {
     
     sprite.animation.update();
     render();
-    if(timestamp < lastFrameTimeMS + (1000 / maxFrame)){
-        window.requestAnimationFrame(loop);
-    }
-    lastFrameTimeMS = timestamp
+    window.requestAnimationFrame(loop);
+    
     // setTimeout may be a good way to make movement consistent across devices as powerful devices loop faster
 };
 
@@ -216,3 +212,4 @@ window.addEventListener("keyup", controller.keyListener);
 spriteSheet.image.addEventListener("load", (e) => {
     window.requestAnimationFrame(loop);
 });
+
