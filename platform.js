@@ -55,7 +55,7 @@ sprite = {
 ///////// SPRITESHEET/////////
 spriteSheet = {
     // add animation frames, inner arrays are frame sets
-    frameSets: [[0,1]],
+    frameSets: [[0,1], [2,3], [4,5]],
     image: new Image()
 };
 
@@ -102,11 +102,13 @@ loop = () => {
     };
     
     if (controller.left){
-        sprite.x_velocity -= 1
+        sprite.x_velocity -= .8
+        sprite.animation.change(spriteSheet.frameSets[1], 35)
     };
 
     if (controller.right){
-        sprite.x_velocity += 1
+        sprite.x_velocity += .8
+        sprite.animation.change(spriteSheet.frameSets[2], 35)
     };
 
     // still animation
@@ -117,7 +119,7 @@ loop = () => {
     sprite.y_velocity += 1.5;
     sprite.x += sprite.x_velocity;
     sprite.y += sprite.y_velocity;
-    sprite.x_velocity *= .9;
+    sprite.x_velocity *= .6;
     sprite.y_velocity *= 1;
     
 
@@ -202,11 +204,11 @@ let render = function(){
     context.lineTo(1000, 600);
     context.stroke();
 
-    context.drawImage(spriteSheet.image, sprite.animation.frame * sprite.width, 0, sprite.width, sprite.height+2, sprite.x, sprite.y, sprite.width, sprite.height+2);
+    context.drawImage(spriteSheet.image, sprite.animation.frame * sprite.width, 0, sprite.width, sprite.height, sprite.x, sprite.y + 4, sprite.width, sprite.height);
 
 }
 
-spriteSheet.image.src = './assets/sprite-sheet.png';
+spriteSheet.image.src = './assets/blobwalkspritesheet.png';
 window.addEventListener("keydown", controller.keyListener)
 window.addEventListener("keyup", controller.keyListener);
 spriteSheet.image.addEventListener("load", (e) => {
