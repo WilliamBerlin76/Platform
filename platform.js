@@ -104,17 +104,17 @@ loop = (timestamp) => {
     
     if (controller.left){
         sprite.x_velocity -= .8
-        sprite.animation.change(spriteSheet.frameSets[1], 35)
+        sprite.animation.change(spriteSheet.frameSets[1], 20)
     };
 
     if (controller.right){
         sprite.x_velocity += .8
-        sprite.animation.change(spriteSheet.frameSets[2], 35)
+        sprite.animation.change(spriteSheet.frameSets[2], 20)
     };
 
     // still animation
     if(!controller.right && !controller.left){
-        sprite.animation.change(spriteSheet.frameSets[0], 50);
+        sprite.animation.change(spriteSheet.frameSets[0], 35);
     };
 
     sprite.y_velocity += 1.5;
@@ -141,7 +141,7 @@ loop = (timestamp) => {
     window.requestAnimationFrame(loop);
 
     const milsSinceLastRender = (timestamp - lastRenderTime)
-    if (milsSinceLastRender < 5) return
+    if (milsSinceLastRender < 13) return
 
     lastRenderTime = timestamp
 
