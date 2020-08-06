@@ -98,26 +98,26 @@ let lastRenderTime = 0;
 loop = (timestamp) => {
 
     if (controller.up && sprite.jumping === false){
-        sprite.y_velocity -= 30;
+        sprite.y_velocity -= 20;
         sprite.jumping = true;
     };
     
     if (controller.left){
         sprite.x_velocity -= .8
-        sprite.animation.change(spriteSheet.frameSets[1], 20)
+        sprite.animation.change(spriteSheet.frameSets[1], 15)
     };
 
     if (controller.right){
         sprite.x_velocity += .8
-        sprite.animation.change(spriteSheet.frameSets[2], 20)
+        sprite.animation.change(spriteSheet.frameSets[2], 15)
     };
 
     // still animation
     if(!controller.right && !controller.left){
-        sprite.animation.change(spriteSheet.frameSets[0], 35);
+        sprite.animation.change(spriteSheet.frameSets[0], 30);
     };
 
-    sprite.y_velocity += 1.5;
+    sprite.y_velocity += 1;
     sprite.x += sprite.x_velocity;
     sprite.y += sprite.y_velocity;
     sprite.x_velocity *= .6;
@@ -141,7 +141,7 @@ loop = (timestamp) => {
     window.requestAnimationFrame(loop);
 
     const milsSinceLastRender = (timestamp - lastRenderTime)
-    if (milsSinceLastRender < 13) return
+    if (milsSinceLastRender < 1000 / 60) return // lock in 60fps
 
     lastRenderTime = timestamp
 
