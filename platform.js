@@ -93,7 +93,7 @@ controller = {
 };
 
 /////////////////LOOP/////////////////////
-let lastRenderTime = 0;
+// let lastRenderTime = 0;
 
 loop = (timestamp) => {
 
@@ -104,17 +104,17 @@ loop = (timestamp) => {
     
     if (controller.left){
         sprite.x_velocity -= .8
-        sprite.animation.change(spriteSheet.frameSets[1], 15)
+        sprite.animation.change(spriteSheet.frameSets[1], 25)
     };
 
     if (controller.right){
         sprite.x_velocity += .8
-        sprite.animation.change(spriteSheet.frameSets[2], 15)
+        sprite.animation.change(spriteSheet.frameSets[2], 25)
     };
 
     // still animation
     if(!controller.right && !controller.left){
-        sprite.animation.change(spriteSheet.frameSets[0], 30);
+        sprite.animation.change(spriteSheet.frameSets[0], 45);
     };
 
     sprite.y_velocity += 1;
@@ -140,10 +140,10 @@ loop = (timestamp) => {
     
     window.requestAnimationFrame(loop);
 
-    const milsSinceLastRender = (timestamp - lastRenderTime)
-    if (milsSinceLastRender < 1000 / 60) return // lock in 60fps
+    // const milsSinceLastRender = (timestamp - lastRenderTime)
+    // if (milsSinceLastRender < 1000 / 60) return // lock in 60fps
 
-    lastRenderTime = timestamp
+    // lastRenderTime = timestamp
 
     sprite.animation.update();
     render();
