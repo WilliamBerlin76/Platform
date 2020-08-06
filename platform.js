@@ -93,6 +93,7 @@ controller = {
 };
 
 /////////////////LOOP/////////////////////
+let lastRenderTime = 0;
 
 loop = (timestamp) => {
 
@@ -133,11 +134,19 @@ loop = (timestamp) => {
         sprite.x = 1000
     } else if (sprite.x > 1000){
         sprite.x = -sprite.width;
-    }
+    };
+
     
+    
+    window.requestAnimationFrame(loop);
+
+    const milsSinceLastRender = (timestamp - lastRenderTime)
+    if (milsSinceLastRender < 5) return
+
+    lastRenderTime = timestamp
+
     sprite.animation.update();
     render();
-    window.requestAnimationFrame(loop);
     
     // setTimeout may be a good way to make movement consistent across devices as powerful devices loop faster
 };
