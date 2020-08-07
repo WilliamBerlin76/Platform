@@ -1,96 +1,14 @@
+import { controller } from "./controller.js";
+import { spriteSheet }  from "./spriteSheet.js";
+import { sprite } from "./sprite.js";
+var display, buffer, loop;
 
-var context, controller, sprite, spriteSheet, loop;
-
-context = document.querySelector('canvas').getContext('2d');
-
-context.canvas.height = 700;
-context.canvas.width = 1000;
-
-
-/////////////// ANIMATION CLASS/////////////
-
-class Animation {
-    constructor(frameSet, delay){
-        this.count = 0;
-        this.delay = delay;
-        this.frameSet = frameSet;
-        this.frame = 0;
-        this.frameIndex = 0;
-    }
-    change(frameSet, delay = 20){
-        if(this.frameSet !== frameSet){
-            this.count = 0;
-            this.delay = delay;
-            this.frameSet = frameSet;
-            this.frameIndex = 0;
-            this.frame = this.frameSet[this.frameIndex]
-        } 
-    }
-    update(){
-        this.count++;
-        // check if count has reached delay time
-        if(this.count >= this.delay){
-            // reset count
-            this.count = 0;
-            // if frameIndex is too high, reset it, otherwise, add 1
-            this.frameIndex >= this.frameSet.length - 1 ? this.frameIndex = 0 : this.frameIndex++;
-            this.frame = this.frameSet[this.frameIndex];
-        }
-    }
-};
+buffer = document.createElement('canvas').getContext('2d')
+display = document.querySelector('canvas').getContext('2d');
 
 
-/////////////////////SPRITE////////////////////////
-sprite = {
-    animation: new Animation(),
-    height: 90,
-    width: 70,
-    jumping: false,
-    x: 500,
-    y: 0,
-    x_velocity: 0,
-    y_velocity: 0,
-};
-
-///////// SPRITESHEET/////////
-spriteSheet = {
-    // add animation frames, inner arrays are frame sets
-    frameSets: [[0,1], [2,3], [4,5]],
-    image: new Image()
-};
-
-/////////////////CONTROLLER/////////////////////////
-controller = {
-    left: false,
-    right: false,
-    up: false,
-
-    keyListener: (e) => {
-        var keyState = (e.type === 'keydown') ? true : false;
-
-        switch(e.keyCode){
-
-            case 37:
-                controller.left = keyState
-            break;
-            case 65:
-                controller.left = keyState
-            break;
-            case 38:
-                controller.up = keyState
-            break;
-            case 87:
-                controller.up = keyState
-            break;
-            case 39:
-                controller.right = keyState
-            break;
-            case 68:
-                controller.right = keyState
-            break;
-        };
-    }
-};
+const SPRITE_SIZE_X = 70;
+const SPRITE_SIZE_Y = 90;
 
 /////////////////LOOP/////////////////////
 // let lastRenderTime = 0;
@@ -155,67 +73,86 @@ loop = (timestamp) => {
 let render = function(){
 
     ///// CANVAS BACKGROUND //////
-    context.strokeStyle = '#a4a4dd';
-    context.lineJoin = "round";
-    context.lineWidth = 6;
-    context.fillStyle = "grey";
-    context.fillRect(0,0, 1000, 700);
+    buffer.strokeStyle = '#a4a4dd';
+    buffer.lineJoin = "round";
+    buffer.lineWidth = 6;
+    buffer.fillStyle = "grey";
+    buffer.fillRect(0,0, 1000, 700);
 
     ///// BEZIER CURVE //////
-    context.beginPath();
-    context.moveTo(0, 70);
-    context.bezierCurveTo(180, 0, 360, 140, 500, 70);
-    context.bezierCurveTo(640, 0, 820, 140, 1000, 70);
-    context.stroke()
+    buffer.beginPath();
+    buffer.moveTo(0, 70);
+    buffer.bezierCurveTo(180, 0, 360, 140, 500, 70);
+    buffer.bezierCurveTo(640, 0, 820, 140, 1000, 70);
+    buffer.stroke()
 
 
     ///DRAW A TRIANGLE!!!////
-    context.strokeStyle = "#ffffff";
-    context.lineWidth = 5;
-    context.fillStyle = "red";
-    context.beginPath();
-    context.moveTo(500, 50);
-    context.lineTo(300, 300);
-    context.lineTo(700, 300);
-    context.closePath();
-    context.fill();
-    context.stroke();
+    buffer.strokeStyle = "#ffffff";
+    buffer.lineWidth = 6;
+    buffer.fillStyle = "red";
+    buffer.beginPath();
+    buffer.moveTo(500, 50);
+    buffer.lineTo(300, 300);
+    buffer.lineTo(700, 300);
+    buffer.closePath();
+    buffer.fill();
+    buffer.stroke();
 
     ///// BOX HOUSE BODY/////
-    context.fillStyle = "green";
-    context.beginPath();
-    context.rect(300, 300, 400, 300);
-    context.fill();
-    context.stroke();
+    buffer.fillStyle = "green";
+    buffer.beginPath();
+    buffer.rect(300, 300, 400, 300);
+    buffer.fill();
+    buffer.stroke();
 
     /// ATTIC WINDOW /////
-    context.fillStyle = "blue";
-    context.beginPath();
-    context.arc(500, 175, 40, 0, Math.PI*2);
-    context.fill();
-    context.stroke();
+    buffer.fillStyle = "blue";
+    buffer.beginPath();
+    buffer.arc(500, 175, 40, 0, Math.PI*2);
+    buffer.fill();
+    buffer.stroke();
 
     ////// BOUNCY BOX//////
-    // context.beginPath();
-    // context.fillStyle = "purple";
-    // context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
-    // context.fill();
-    // context.stroke();
+    // buffer.beginPath();
+    // buffer.fillStyle = "purple";
+    // buffer.rect(sprite.x, sprite.y, sprite.width, sprite.height);
+    // buffer.fill();
+    // buffer.stroke();
     
     
     ////// FLOOR///////
-    context.strokeStyle = "#202830";
-    context.lineWidth = 8;
-    context.beginPath();
-    context.moveTo(0, 600);
-    context.lineTo(1000, 600);
-    context.stroke();
+    buffer.strokeStyle = "#202830";
+    buffer.lineWidth = 8;
+    buffer.beginPath();
+    buffer.moveTo(0, 600);
+    buffer.lineTo(1000, 600);
+    buffer.stroke();
 
-    context.drawImage(spriteSheet.image, sprite.animation.frame * sprite.width, 0, sprite.width, sprite.height, sprite.x, sprite.y + 4, sprite.width, sprite.height);
-
+    buffer.drawImage(spriteSheet.image, sprite.animation.frame * SPRITE_SIZE_X, 0, sprite.width, sprite.height, sprite.x, sprite.y + 4, SPRITE_SIZE_X, SPRITE_SIZE_Y);
+    
+    display.drawImage(buffer.canvas, 0, 0, buffer.canvas.width, buffer.canvas.height, 0, 0, display.canvas.width, display.canvas.height);
 }
 
-spriteSheet.image.src = './assets/blobwalkspritesheet.png';
+let resize = function(){
+
+    display.canvas.width = document.documentElement.clientWidth - 32;
+
+    if (display.canvas.width > document.documentElement.clientHeight){
+        display.canvas.width = document.documentElement.clientHeight;
+    };
+
+    display.canvas.height = display.canvas.width * 0.7;
+
+};
+
+buffer.canvas.width = 1000;
+buffer.canvas.height = 700;
+
+window.addEventListener("resize", resize);
+
+resize();
+
 window.addEventListener("keydown", controller.keyListener)
 window.addEventListener("keyup", controller.keyListener);
 spriteSheet.image.addEventListener("load", (e) => {
