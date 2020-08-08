@@ -11,23 +11,24 @@ const SPRITE_SIZE_X = 70;
 const SPRITE_SIZE_Y = 90;
 
 /////////////////LOOP/////////////////////
-// let lastRenderTime = 0;
+let accumTime = window.performance.now();
+let timeStep = 1000/60;
 
 loop = (timestamp) => {
 
     if (controller.up && sprite.jumping === false){
-        sprite.y_velocity -= 20;
+        sprite.y_velocity -= 13;
         sprite.jumping = true;
     };
     
     if (controller.left){
         sprite.x_velocity -= .8
-        sprite.animation.change(spriteSheet.frameSets[1], 25)
+        sprite.animation.change(spriteSheet.frameSets[1], 10)
     };
 
     if (controller.right){
         sprite.x_velocity += .8
-        sprite.animation.change(spriteSheet.frameSets[2], 25)
+        sprite.animation.change(spriteSheet.frameSets[2], 10)
     };
 
     // still animation
@@ -35,7 +36,7 @@ loop = (timestamp) => {
         sprite.animation.change(spriteSheet.frameSets[0], 45);
     };
 
-    sprite.y_velocity += 1;
+    sprite.y_velocity += .3;
     sprite.x += sprite.x_velocity;
     sprite.y += sprite.y_velocity;
     sprite.x_velocity *= .6;
@@ -54,8 +55,18 @@ loop = (timestamp) => {
         sprite.x = -sprite.width;
     };
 
-    
-    
+    // code for loop and render timing to be same on all devices
+    if(timestamp >= accumTime + timeStep){
+        if (timestamp - accumTime >= timeStep * 4 ){
+            accumTime = timestamp;
+        };
+        while(accumTime < timestamp){
+            accumTime += timeStep
+
+            sprite.animation.update();
+        }
+        render();
+    }
     window.requestAnimationFrame(loop);
 
     // const milsSinceLastRender = (timestamp - lastRenderTime)
@@ -63,8 +74,8 @@ loop = (timestamp) => {
 
     // lastRenderTime = timestamp
 
-    sprite.animation.update();
-    render();
+    // sprite.animation.update();
+    // render();
     
     // setTimeout may be a good way to make movement consistent across devices as powerful devices loop faster
 };
@@ -129,7 +140,7 @@ let render = function(){
     buffer.lineTo(1000, 600);
     buffer.stroke();
 
-    buffer.drawImage(spriteSheet.image, sprite.animation.frame * SPRITE_SIZE_X, 0, sprite.width, sprite.height, sprite.x, sprite.y + 4, SPRITE_SIZE_X, SPRITE_SIZE_Y);
+    buffer.drawImage(spriteSheet.image, sprite.animation.frame * SPRITE_SIZE_X, 0, sprite.width, sprite.height, Math.floor(sprite.x), Math.floor(sprite.y + 4), SPRITE_SIZE_X, SPRITE_SIZE_Y);
     
     display.drawImage(buffer.canvas, 0, 0, buffer.canvas.width, buffer.canvas.height, 0, 0, display.canvas.width, display.canvas.height);
 }
