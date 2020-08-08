@@ -12,7 +12,7 @@ const SPRITE_SIZE_Y = 90;
 
 /////////////////LOOP/////////////////////
 let accumTime = window.performance.now();
-let timeStep = 1000/60;
+let timeStep = 1000/100;
 
 loop = (timestamp) => {
 
@@ -23,12 +23,12 @@ loop = (timestamp) => {
     
     if (controller.left){
         sprite.x_velocity -= .8
-        sprite.animation.change(spriteSheet.frameSets[1], 10)
+        sprite.animation.change(spriteSheet.frameSets[1], 15)
     };
 
     if (controller.right){
         sprite.x_velocity += .8
-        sprite.animation.change(spriteSheet.frameSets[2], 10)
+        sprite.animation.change(spriteSheet.frameSets[2], 15)
     };
 
     // still animation
