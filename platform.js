@@ -12,7 +12,7 @@ const SPRITE_SIZE_Y = 90;
 
 /////////////////LOOP/////////////////////
 let accumTime = window.performance.now();
-let timeStep = 1000/100;
+let timeStep = 1000/60;
 
 loop = (timestamp) => {
 
